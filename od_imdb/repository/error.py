@@ -1,0 +1,2 @@
+class RepositoryUpdatingError(RuntimeError):
+    pass
