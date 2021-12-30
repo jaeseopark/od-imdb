@@ -1,3 +1,4 @@
+from time import mktime
 from typing import List
 
 from htmllistparse import fetch_listing
@@ -12,5 +13,7 @@ class OdHtmlParser(OdParser):
         return [OdFileEntity(
             name=listing.name,
             parent_url=url,
-            is_directory=listing.name.endswith("/")
+            is_directory=listing.name.endswith("/"),
+            timestamp_ms=int(mktime(listing.modified)*1000),
+            size=listing.size
         ) for listing in listings]

@@ -11,7 +11,6 @@ logging.basicConfig(format="%(asctime)s %(levelname)s thread=%(thread)d %(module
 logging.root.setLevel(logging.INFO)
 
 # TODO: add logging.FileHandler
-
 LOGGER = logging.getLogger(__name__)
 
 
@@ -36,10 +35,14 @@ def main():
 
     @app.get("/lookup")
     def lookup():
-        url: str = request.args.get("url")
+        od: str = request.args.get("od")
         try:
-            entities = od_imdb.lookup(url)
-            return normalize({"entities": entities}), 200
+            entities = od_imdb.lookup(od)
+            headers = {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+            return normalize({"entities": entities}), 200, headers
         except ValueError as e:
             return {"message": str(e)}, 400
         except Exception:

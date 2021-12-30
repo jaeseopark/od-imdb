@@ -6,16 +6,18 @@ from typing import List
 
 from commmons import touch_directory
 
-from od_imdb.interface import OdFileEntity, Movie
+from od_imdb.interface import OdFileEntity
 from od_imdb.repository.interface import UpdatableRepository
 from od_imdb.repository.self_hosted.sqlite.initializer import init_sqlite
 
 _SQLITE_BASENAME = "db.sqlite"
-_FIELDS_TO_RETURN = ("primary_title", "rating", "votes", "year", "end_year", "genre")
+_FIELDS_TO_DECORATE = ("title", "rating", "votes", "year", "end_year", "genre", "external_link")
 
 
 def _dict_factory(cursor, row):
     dct = {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
+    dct["title"] = dct.pop("primary_title")
+    dct["external_link"] = f"https://www.imdb.com/title/{dct['movie_id']}/"
     if dct["genre"]:
         dct["genre"] = dct["genre"].split(",")
     return dct
@@ -36,15 +38,13 @@ class Sqlite(UpdatableRepository):
     def decorate_safe(self, entities: List[OdFileEntity]):
         with self.con as con:
             for entity in entities:
-                fuzzy_statement = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes"
+                fuzzy_statement = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes LIMIT 1"
                 fuzzy_name = re.sub(r"[^a-zA-Z0-9]", " ", entity.name)
                 for row in con.execute(fuzzy_statement, (fuzzy_name,)):
-                    entity.movie = Movie(*[row.get(field) for field in _FIELDS_TO_RETURN])
-                    break
+                    for field_name in _FIELDS_TO_DECORATE:
+                        setattr(entity, field_name, row[field_name])
 
     def update_safe(self):
-        os.remove(self.sqlite_path)
-
         raise NotImplementedError
 
     def close(self):
