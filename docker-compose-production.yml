@@ -1,0 +1,32 @@
+# TODO
+
+version: "3.7"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 2015:80
+    networks:
+      - bridge
+  backend:
+    container_name: backend
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./tmp:/shared
+    ports:
+      - 2014:80
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - bridge
+networks:
+  bridge:
+    driver: bridge

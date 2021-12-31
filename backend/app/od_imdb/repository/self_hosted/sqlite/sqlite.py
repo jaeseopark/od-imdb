@@ -23,6 +23,24 @@ def _dict_factory(cursor, row):
     return dct
 
 
+def get_fuzzy_name(name: str) -> str:
+    if len(name) == 0:
+        return name
+
+    tokens = re.sub(r"[^a-zA-Z0-9]", " ", name).split(" ")
+    found_year = False
+    for i, token in enumerate(tokens):
+        is_year = False
+        if token.isdigit():
+            is_year = 1900 < int(token) < 2100
+        if not is_year and found_year:
+            break
+        if is_year:
+            found_year = True
+
+    return " ".join(tokens[:i])
+
+
 class Sqlite(UpdatableRepository):
     def __init__(self, path: str, **config):
         super().__init__()
@@ -39,7 +57,7 @@ class Sqlite(UpdatableRepository):
         with self.con as con:
             for entity in entities:
                 fuzzy_statement = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes LIMIT 1"
-                fuzzy_name = re.sub(r"[^a-zA-Z0-9]", " ", entity.name)
+                fuzzy_name = get_fuzzy_name(entity.name)
                 for row in con.execute(fuzzy_statement, (fuzzy_name,)):
                     for field_name in _FIELDS_TO_DECORATE:
                         setattr(entity, field_name, row[field_name])

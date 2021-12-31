@@ -5,7 +5,6 @@ from typing import List
 @dataclass
 class OdFileEntity:
     name: str
-    parent_url: str
     is_directory: bool
     timestamp_ms: int  # posix timestamp in milliseconds
     size: int = field(default=None)  # in bytes

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import OdInputView from "./OdInputView";
 
 import { fetchData, Entity } from "./service";
 import TableView from "./TableView";
@@ -13,33 +14,28 @@ function App() {
   const [searchParams] = useSearchParams();
   const [od] = useState<string | null>(searchParams.get("od"));
   const [data, setData] = useState<Entity[]>();
+  const [error, setError] = useState();
 
   useEffect(() => {
     if (od) {
-      fetchData(od).then(setData);
+      fetchData(od)
+        .then(setData)
+        .catch((e) => {
+          console.log(e);
+          setError(e);
+        });
     }
   }, [od]);
 
   let content;
-
-  if (!od) {
-    content = (
-      <p>
-        You have not specified the <b>?od=</b> query parameter.
-      </p>
-    );
+  if (error) {
+    content = <p>Uh oh, something went wrong 😢</p>;
+  } else if (!od) {
+    content = <OdInputView />;
   } else if (!data) {
-    content = <p>Fetching...</p>;
+    content = <h1>Fetching...</h1>;
   } else {
-    const newOd = od.substring(0, od.lastIndexOf("/"));
-    content = (
-      <div>
-        <div>
-          <a href={`?od=${newOd}`}>Back</a>
-        </div>
-        <TableView initData={data} />
-      </div>
-    );
+    content = <TableView initData={data} />;
   }
 
   return <DivWithMargin>{content}</DivWithMargin>;

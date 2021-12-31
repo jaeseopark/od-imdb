@@ -3,7 +3,7 @@ import os
 import sqlite3
 from os.path import exists, basename
 from time import perf_counter
-from typing import Tuple, List
+from typing import List
 
 from od_imdb.util.download import download_binary
 

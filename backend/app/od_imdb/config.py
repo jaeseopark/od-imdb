@@ -3,10 +3,12 @@ import io
 import yaml
 
 _DEFAULT = """
+parser:
+  mode: PARSE_ALL
 repository:
   active: sqlite
   sqlite:
-    path: tmp # /shared
+    path: /shared
     basic_url: https://datasets.imdbws.com/title.basics.tsv.gz
     ratings_url: https://datasets.imdbws.com/title.ratings.tsv.gz
   imdb-api:
