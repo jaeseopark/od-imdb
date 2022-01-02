@@ -9,13 +9,7 @@ TODO: insert a gif here.
 1. Install [`docker`](https://docs.docker.com/get-docker/) and [`docker-compose`](https://docs.docker.com/compose/install/).
 1. Run (UNIX):
     ```bssh
-    mkdir ~/od-imdb; cd ~/od-imdb
-    mkdir mnt; touch mnt/log.log
-
-    cat > docker-compose.yml <<EOF
-    # TODO docker compose content
-    EOF
-
+    wget https://raw.githubusercontent.com/jaeseopark/od-imdb/master/docker-compose-production.yml docker-compose.yml
     docker-compose up -d
     ```
 1. Install the following Google Chrome extension: TODO: publish the extension
@@ -25,7 +19,7 @@ TODO: insert a gif here.
 ### Update Repository
 
 ```bash
-curl --request POST "http://localhost:2014/update"
+curl --request POST "http://localhost:2014/api/update"
 ```
 
 ### Use Third Party API
@@ -53,21 +47,24 @@ from od_imdb.interface import OdFileEntity
 from od_imdb.od_imdb import OdImdb
 from od_imdb.od_parser.interface import OdParser
 
-
 class MyCustomParser(OdParser):
    def get_entities(self, url: str) -> List[OdFileEntity]:
       return [...]
-
 
 class MyCustomRepository(Repository):
    def decorate_safe(self, entities: List[OdFileEntity]):
       for entity in entities:
          entity.movie = my_awesome_lookup_algorithm(entity.name)
 
-
 custom_parser = MyCustomParser()
 custom_repo = MyCustomRepository()
 od_imdb = OdImdb(od_parser=custom_parser, repository=custom_repo)
 
 od_imdb.lookup("http://foo.bar/folder123/")
+```
+
+## Development
+
+```bash
+docker-compose up --build
 ```

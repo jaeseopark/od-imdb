@@ -25,6 +25,14 @@ const RatingComponent = styled.span`
   }};
 `;
 
+const GenreLabel = styled.label`
+  margin-left: 2px;
+  background-color: #e7e7e7;
+  border-radius: 3px;
+  font-size: small;
+  padding: 0 3px;
+`;
+
 // @ts-ignore
 const Year = ({ year, endYear }) => {
   if (!year) return null;
@@ -43,6 +51,17 @@ const Rating = ({ rating }) => {
   return <RatingComponent rating={rating}>{rating}</RatingComponent>;
 };
 
+const Genre = ({ genre }: { genre?: string[] }) => {
+  if (!genre || genre.length === 0) return null;
+  return (
+    <span>
+      {genre.map((g) => (
+        <GenreLabel key={g}>{g}</GenreLabel>
+      ))}
+    </span>
+  );
+};
+
 const MovieSummary = ({ data }: { data: Entity }) => {
   const {
     title,
@@ -50,6 +69,7 @@ const MovieSummary = ({ data }: { data: Entity }) => {
     end_year: endYear,
     external_link: externalLink,
     rating,
+    genre
   } = data;
 
   if (!title) return null;
@@ -62,6 +82,7 @@ const MovieSummary = ({ data }: { data: Entity }) => {
       </a>
       <Year year={year} endYear={endYear} />
       <Rating rating={rating} />
+      <Genre genre={genre} />
     </span>
   );
 };
