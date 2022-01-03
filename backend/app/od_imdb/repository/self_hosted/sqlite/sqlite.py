@@ -36,7 +36,7 @@ def get_fuzzy_name(name: str) -> str:
         if is_year:
             found_year = True
 
-    return " ".join(tokens[:i + 1]).strip()
+    return " ".join(tokens).strip()
 
 
 class Sqlite(UpdatableRepository):
