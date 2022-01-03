@@ -25,21 +25,18 @@ def _dict_factory(cursor, row):
 
 
 def get_fuzzy_name(name: str) -> str:
-    if len(name) == 0:
-        return name
-
-    tokens = re.sub(r"[^a-zA-Z0-9]", " ", name).split(" ")
+    tokens = [s for s in re.sub(r"[^a-zA-Z0-9]", " ", name).split(" ") if s]
     found_year = False
     for i, token in enumerate(tokens):
         is_year = False
         if token.isdigit():
             is_year = 1900 < int(token) < 2100
         if not is_year and found_year:
-            break
+            return " ".join(tokens[:i])
         if is_year:
             found_year = True
 
-    return " ".join(tokens[:i])
+    return " ".join(tokens).strip()
 
 
 class Sqlite(UpdatableRepository):
@@ -57,9 +54,9 @@ class Sqlite(UpdatableRepository):
     def decorate_safe(self, entities: List[OdFileEntity]):
         with self.con as con:
             for entity in entities:
-                if not entity.name:
-                    continue
                 fuzzy_name = get_fuzzy_name(entity.name) or entity.name
+                if not fuzzy_name:
+                    continue
                 for row in con.execute(FUZZY_STATEMENT, (fuzzy_name,)):
                     for field_name in _FIELDS_TO_DECORATE:
                         setattr(entity, field_name, row[field_name])
