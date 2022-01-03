@@ -2,7 +2,7 @@
 
 Scans an Open Directory containing movies and looks them up on IMDB.
 
-<img src="https://user-images.githubusercontent.com/20038316/147902012-5829a89e-da00-485a-8a7f-00941a1f03b5.gif" width="500" />
+<img src="https://user-images.githubusercontent.com/20038316/147903087-0b19f02f-add9-4225-b802-56751af1ddda.gif" width="500" />
 
 ## Installation
 

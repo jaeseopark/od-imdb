@@ -6,7 +6,7 @@ import { useOpenDirectoryParam } from "./odParamHook";
 import { fetchData, Entity } from "./service";
 import TableView from "./TableView";
 
-const DivWithMargin = styled.div`
+const AppDiv = styled.div`
   margin: 20px;
 `;
 
@@ -38,7 +38,7 @@ function App() {
     content = <TableView initData={data} />;
   }
 
-  return <DivWithMargin>{content}</DivWithMargin>;
+  return <AppDiv>{content}</AppDiv>;
 }
 
 export default App;
