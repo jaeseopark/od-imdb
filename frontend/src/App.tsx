@@ -35,7 +35,7 @@ function App() {
   } else if (!data) {
     content = <h1>Fetching...</h1>;
   } else {
-    content = <TableView initData={data} />;
+    content = <TableView entities={data} />;
   }
 
   return <AppDiv>{content}</AppDiv>;
