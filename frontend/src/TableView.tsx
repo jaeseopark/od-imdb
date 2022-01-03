@@ -57,10 +57,10 @@ const getColumns = (initData?: Entity[]) => {
     },
     {
       accessor: "timestamp_ms",
-      Header: "Modified",
+      Header: "Modified (UTC)",
       Cell: ({ value }: { value: number }) => {
         if (!value) return null;
-        return new Date(value).toLocaleString();
+        return new Date(value).toUTCString();
       },
     },
   ];

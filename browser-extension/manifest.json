@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "od-imdb",
+    "description": "Open the current page with od-imdb",
+    "version": "0.0.1",
+    "permissions": [
+        "contextMenus"
+    ],
+    "host_permissions": [
+        "*://*/*"
+    ],
+    "background": {
+        "service_worker": "addContextMenu.js"
+    }
+}

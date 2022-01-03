@@ -15,6 +15,12 @@ export type Entity = {
 export const fetchData = (od: string): Promise<Entity[]> => {
   const encodedUri = encodeURIComponent(od);
   return fetch(`/api/lookup?od=${encodedUri}`)
-    .then((r) => r.json())
+    .then((r) => {
+      if (r.ok) {
+        return r.json();
+      }
+      console.error(r);
+      throw new Error();
+    })
     .then((json: { entities: Entity[] }) => json.entities);
 };
