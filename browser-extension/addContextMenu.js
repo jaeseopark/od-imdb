@@ -13,7 +13,7 @@ const openInOdImdb = ({ menuItemId, pageUrl }) => {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: MENU_ITEM_ID,
-    title: "Open in od-imdb",
+    title: "Show IMDB info",
   });
 });
 
