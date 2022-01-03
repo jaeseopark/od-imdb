@@ -11,7 +11,7 @@ from od_imdb.repository.interface import UpdatableRepository
 from od_imdb.repository.self_hosted.sqlite.initializer import init_sqlite
 
 _SQLITE_BASENAME = "db.sqlite"
-_FIELDS_TO_DECORATE = ("title", "rating", "votes", "year", "end_year", "genre", "external_link")
+_FIELDS_TO_DECORATE = ("title", "rating", "votes", "year", "end_year", "genre", "runtime_minutes", "external_link")
 FUZZY_STATEMENT = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes LIMIT 1"
 
 

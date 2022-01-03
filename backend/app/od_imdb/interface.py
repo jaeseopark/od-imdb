@@ -16,6 +16,7 @@ class OdFileEntity:
     year: int = field(default=None)
     end_year: int = field(default=None)
     genre: List[str] = field(default=None)
+    runtime_minutes: int = field(default=None)
     external_link: str = field(default=None)
 
     def __post_init__(self):
