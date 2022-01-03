@@ -29,7 +29,7 @@ class NestedNonNullEncoder(json.JSONEncoder):
         elif isinstance(o, list):
             return [self.default(i) for i in o if i is not None]
         elif is_dataclass(o):
-            return {k: self.default(v) for k, v in asdict(o).items() if v is not None}
+            return {k: self.default(v) for k, v in asdict(o).items() if v is not None and not k.startswith("_")}
         return o
 
 
