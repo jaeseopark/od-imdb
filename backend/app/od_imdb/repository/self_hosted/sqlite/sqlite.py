@@ -25,7 +25,7 @@ def _dict_factory(cursor, row):
 
 
 def get_fuzzy_name(name: str) -> str:
-    tokens = re.sub(r"[^a-zA-Z0-9]", " ", name).split(" ")
+    tokens = [s for s in re.sub(r"[^a-zA-Z0-9]", " ", name).split(" ") if s]
     found_year = False
     for i, token in enumerate(tokens):
         is_year = False
