@@ -99,8 +99,6 @@ const TableElement = ({
   </Table>
 );
 
-const Spacer = styled.div``;
-
 const TableView = ({ initData }: TableViewProps) => {
   const readOnlyColumns = useMemo(() => getColumns(initData) || [], [initData]);
   const readOnlyData = useMemo<Entity[]>(() => initData || [], [initData]);
@@ -114,10 +112,6 @@ const TableView = ({ initData }: TableViewProps) => {
     <div>
       <div>
         <Breadcrumb />
-        <Spacer />
-        <div>
-          <input type="text" placeholder="search" />
-        </div>
       </div>
       <div>
         <TableElement {...tableInstance} />

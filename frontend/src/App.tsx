@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import OdInputView from "./OdInputView";
+import { useOpenDirectoryParam } from "./odParamHook";
 
 import { fetchData, Entity } from "./service";
 import TableView from "./TableView";
@@ -11,8 +11,8 @@ const DivWithMargin = styled.div`
 `;
 
 function App() {
-  const [searchParams] = useSearchParams();
-  const [od] = useState<string | null>(searchParams.get("od"));
+  const odParam = useOpenDirectoryParam();
+  const [od] = useState<string | null>(odParam);
   const [data, setData] = useState<Entity[]>();
   const [error, setError] = useState();
 

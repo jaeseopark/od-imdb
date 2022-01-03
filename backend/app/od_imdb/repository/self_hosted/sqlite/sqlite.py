@@ -12,6 +12,7 @@ from od_imdb.repository.self_hosted.sqlite.initializer import init_sqlite
 
 _SQLITE_BASENAME = "db.sqlite"
 _FIELDS_TO_DECORATE = ("title", "rating", "votes", "year", "end_year", "genre", "external_link")
+FUZZY_STATEMENT = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes LIMIT 1"
 
 
 def _dict_factory(cursor, row):
@@ -56,9 +57,10 @@ class Sqlite(UpdatableRepository):
     def decorate_safe(self, entities: List[OdFileEntity]):
         with self.con as con:
             for entity in entities:
-                fuzzy_statement = "SELECT m.* FROM fuzzy(?) f INNER JOIN movies m ON m.movie_id = f.movie_id ORDER BY rank, votes LIMIT 1"
-                fuzzy_name = get_fuzzy_name(entity.name)
-                for row in con.execute(fuzzy_statement, (fuzzy_name,)):
+                if not entity.name:
+                    continue
+                fuzzy_name = get_fuzzy_name(entity.name) or entity.name
+                for row in con.execute(FUZZY_STATEMENT, (fuzzy_name,)):
                     for field_name in _FIELDS_TO_DECORATE:
                         setattr(entity, field_name, row[field_name])
 

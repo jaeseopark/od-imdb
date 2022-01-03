@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Entity } from "./service";
 
 import dirSvg from "./dir.svg";
-import { useSearchParams } from "react-router-dom";
+import { useOpenDirectoryParam } from "./odParamHook";
 
 const DirImg = styled.img`
   width: 20px;
@@ -12,14 +12,11 @@ const DirImg = styled.img`
 
 type EntitySummaryProps = { entity: Entity };
 
-const removeTrailingSlash = (s: string) => s.replace(/\/$/, "");
-
 const EntitySummary = ({ entity }: EntitySummaryProps) => {
-  const [searchParams] = useSearchParams();
-  const parentUrl = searchParams.get("od");
+  const parentUrl = useOpenDirectoryParam();
 
   const { name, is_directory: isDirectory } = entity;
-  const url = [removeTrailingSlash(parentUrl as string), name].join("/");
+  const url = [parentUrl, name].join("/");
 
   if (isDirectory) {
     return (
