@@ -48,6 +48,16 @@ const getColumns = (initData?: Entity[]) => {
       ),
     },
     {
+      accessor: "bitrate",
+      Header: "Avg kbps",
+      Cell: ({ row }: { row: { original: Entity } }) => {
+        if (row.original.bitrate) {
+          return Math.round(row.original.bitrate / 1000);
+        }
+        return null;
+      },
+    },
+    {
       accessor: "size",
       Header: "Size",
       Cell: ({ value }: { value: number }) => {
