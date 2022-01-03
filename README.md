@@ -2,7 +2,7 @@
 
 Scans an Open Directory containing movies and looks them up on IMDB.
 
-TODO: insert a gif here.
+<img src="https://user-images.githubusercontent.com/20038316/147895369-3c67ea0f-18f9-4943-86d4-fbe7c4665ff5.gif" width="500" />
 
 ## Installation
 
@@ -12,7 +12,7 @@ TODO: insert a gif here.
     wget https://raw.githubusercontent.com/jaeseopark/od-imdb/master/docker-compose-production.yml docker-compose.yml
     docker-compose up -d
     ```
-1. Install the following Google Chrome extension: TODO: publish the extension
+1. (Optional) Install the Chrome extension in `browser-extension/`.
 
 ## Advanced Usage
 
@@ -54,7 +54,7 @@ class MyCustomParser(OdParser):
 class MyCustomRepository(Repository):
    def decorate_safe(self, entities: List[OdFileEntity]):
       for entity in entities:
-         entity.movie = my_awesome_lookup_algorithm(entity.name)
+         my_awesome_lookup_algorithm(entity)
 
 custom_parser = MyCustomParser()
 custom_repo = MyCustomRepository()
