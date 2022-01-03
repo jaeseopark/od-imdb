@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import cls from "classnames";
-import { TableInstance, useTable } from "react-table";
+import { Column, TableInstance, useTable } from "react-table";
 import prettyBytes from "pretty-bytes";
 
 import { Entity } from "./service";
@@ -11,7 +11,7 @@ import styled from "styled-components";
 import Breadcrumb from "./Breadcrumb";
 
 type TableViewProps = {
-  initData?: Entity[];
+  entities: Entity[];
 };
 
 const Table = styled.table`
@@ -28,9 +28,7 @@ const Table = styled.table`
   }
 `;
 
-const getColumns = (initData?: Entity[]) => {
-  if (!initData) return null;
-
+const getColumns = (): Column<Entity>[] => {
   return [
     {
       accessor: "name",
@@ -109,14 +107,10 @@ const TableElement = ({
   </Table>
 );
 
-const TableView = ({ initData }: TableViewProps) => {
-  const readOnlyColumns = useMemo(() => getColumns(initData) || [], [initData]);
-  const readOnlyData = useMemo<Entity[]>(() => initData || [], [initData]);
-  const tableInstance = useTable({
-    // @ts-ignore
-    columns: readOnlyColumns,
-    data: readOnlyData,
-  });
+const TableView = ({ entities }: TableViewProps) => {
+  const columns = useMemo(() => getColumns(), []);
+  const data = useMemo(() => entities, [entities]);
+  const tableInstance = useTable({ columns, data });
 
   return (
     <div>
