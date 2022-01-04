@@ -1,7 +1,7 @@
-import { Entity } from "./service";
 import styled from "styled-components";
+import { Entity } from "../../typedef/entity";
 
-import hyperlinkSvg from "./hyperlink.svg";
+import hyperlinkSvg from "../../asset/hyperlink.svg";
 
 const HyperlinkIcon = styled.img`
   margin: 0 0 -3px 5px;

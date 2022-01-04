@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { Entity } from "./service";
-
-import dirSvg from "./dir.svg";
-import { useOpenDirectoryParam } from "./odParamHook";
+import { Entity } from "../../typedef/entity";
+import { useOpenDirectoryParam } from "../../hook/odParamHook";
+import dirSvg from "../../asset/dir.svg";
 
 const DirImg = styled.img`
   width: 20px;

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useOpenDirectoryParam } from "./odParamHook";
+import { useOpenDirectoryParam } from "../hook/odParamHook";
 
 const SpacedLabel = styled.label`
   margin: 0 5px;
@@ -17,7 +17,7 @@ const RecursiveBreadcrumb = ({
   const getParent = () => {
     const parentPath = url.pathname.substring(0, url.pathname.lastIndexOf("/"));
     if (parentPath.length === 0) {
-      return null;
+      return <a href={`?od=${url.origin}`}>{url.hostname}</a>;
     }
     return <RecursiveBreadcrumb url={new URL(parentPath, url.origin)} />;
   };

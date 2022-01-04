@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import OdInputView from "./OdInputView";
-import { useOpenDirectoryParam } from "./odParamHook";
+import { useOpenDirectoryParam } from "../hook/odParamHook";
 
-import { fetchData, Entity } from "./service";
-import TableView from "./TableView";
+import { fetchData } from "../service/service";
+import TableView from "../table/TableView";
+import { Entity } from "../typedef/entity";
 
 const AppDiv = styled.div`
   margin: 20px;
